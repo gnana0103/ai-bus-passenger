@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bus Crowd Dashboard</title>
+
+  <!-- ✅ Link to external CSS -->
+  <link rel="stylesheet" href="sample practice.css">
+</head>
+<body>
+  <h1>🚌 Bus Crowd Level Dashboard</h1>
+
+  <!-- Bus cards -->
+  <div class="bus-container">
+    <div class="bus-card" onclick="showDetails('Bus 101')">Bus 101</div>
+    <div class="bus-card" onclick="showDetails('Bus 102')">Bus 102</div>
+    <div class="bus-card" onclick="showDetails('Bus 103')">Bus 103</div>
+    <div class="bus-card" onclick="showDetails('Bus 104')">Bus 104</div>
+    <div class="bus-card" onclick="showDetails('Bus 105')">Bus 105</div>
+    <div class="bus-card" onclick="showDetails('Bus 106')">Bus 106</div>
+  </div>
+
+  <!-- Details section -->
+  <div class="details" id="details-box">
+    <h2 id="bus-title"></h2>
+    <table id="crowd-table">
+      <tr><th>Time of Day</th><th>Crowd Level (%)</th><th>Status</th></tr>
+    </table>
+  </div>
+
+  <!-- ✅ Link to external JavaScript -->
+  <script src="serve.js"></script>
+</body>
+</html>

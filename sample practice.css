@@ -1,0 +1,79 @@
+body {
+  font-family: "Poppins", sans-serif;
+  background: #f6f9fc;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  margin-top: 30px;
+  color: #2c3e50;
+  text-align: center;
+}
+
+.bus-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+  width: 80%;
+  margin-top: 40px;
+}
+
+.bus-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.bus-card:hover {
+  transform: scale(1.05);
+  background: #eaf5ff;
+}
+
+.details {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-top: 30px;
+  width: 60%;
+  text-align: center;
+  display: none;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+.low {
+  color: green;
+  font-weight: bold;
+}
+
+.medium {
+  color: orange;
+  font-weight: bold;
+}
+
+.high {
+  color: red;
+  font-weight: bold;
+}
