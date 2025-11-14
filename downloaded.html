@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interactive Sales/Passenger Dashboard</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+            background: #f8f8f8;
+        }
+        .container {
+            margin-bottom: 40px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>📊 Interactive Bus/Passenger Performance Dashboard</h1>
+
+<input type="file" id="fileInput" accept=".json">
+<p>Upload your JSON file to generate the dashboard</p>
+
+<div id="dashboard" style="display:none;">
+
+    <div class="container">
+        <h2>1️⃣ Passenger Trend Across Stops</h2>
+        <div id="trendStops"></div>
+    </div>
+
+    <div class="container">
+        <h2>2️⃣ Seat vs Standing (Stop-wise)</h2>
+        <div id="seatStanding"></div>
+    </div>
+
+    <div class="container">
+        <h2>3️⃣ Daily Passenger Volume</h2>
+        <div id="dailyVolume"></div>
+    </div>
+
+    <div class="container">
+        <h2>4️⃣ Stop-wise Passenger Distribution</h2>
+        <div id="stopDistribution"></div>
+    </div>
+
+    <div class="container">
+        <h2>5️⃣ Time vs Passenger Load</h2>
+        <div id="timeLoad"></div>
+    </div>
+
+</div>
+
+<script>
+document.getElementById("fileInput").addEventListener("change", function(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+        const data = JSON.parse(e.target.result);
+        generateDashboard(data);
+    };
+
+    reader.readAsText(file);
+});
+
+function generateDashboard(jsonData) {
+
+    document.getElementById("dashboard").style.display = "block";
+
+    const rows = jsonData.slice(2); 
+
+    const dates = rows.map(r => r.DATE);
+    const stopA = rows.map(r => r["__2"]);
+    const stopB = rows.map(r => r["__5"]);
+    const stopC = rows.map(r => r["__8"]);
+    const stopD = rows.map(r => r["__11"]);
+    const totalPassengers = rows.map(r => r["__12"]);
+
+    Plotly.newPlot("trendStops", [
+        { x: dates, y: stopA, mode: "lines+markers", name: "Stop A" },
+        { x: dates, y: stopB, mode: "lines+markers", name: "Stop B" },
+        { x: dates, y: stopC, mode: "lines+markers", name: "Stop C" },
+        { x: dates, y: stopD, mode: "lines+markers", name: "Stop D" }
+    ], {
+        title: "Passenger Trend Across Stops",
+        xaxis: { title: "Date" },
+        yaxis: { title: "Passengers" }
+    });
+
+    Plotly.newPlot("seatStanding", [
+        {
+            x: ["Stop A", "Stop B", "Stop C", "Stop D"],
+            y: [
+                avg(rows.map(r => r[""])),
+                avg(rows.map(r => r["__3"])),
+                avg(rows.map(r => r["__6"])),
+                avg(rows.map(r => r["__9"]))
+            ],
+            name: "Seat Occupied",
+            type: "bar"
+        },
+        {
+            x: ["Stop A", "Stop B", "Stop C", "Stop D"],
+            y: [
+                avg(rows.map(r => r["__1"])),
+                avg(rows.map(r => r["__4"])),
+                avg(rows.map(r => r["__7"])),
+                avg(rows.map(r => r["__10"]))
+            ],
+            name: "Standing",
+            type: "bar"
+        }
+    ], {
+        barmode: "stack",
+        title: "Seat vs Standing"
+    });
+
+    Plotly.newPlot("dailyVolume", [{
+        x: dates,
+        y: totalPassengers,
+        type: "bar"
+    }], {
+        title: "Daily Passenger Volume",
+        xaxis: { title: "Date" },
+        yaxis: { title: "Total Passengers" }
+    });
+
+    Plotly.newPlot("stopDistribution", [{
+        labels: ["Stop A", "Stop B", "Stop C", "Stop D"],
+        values: [
+            sum(stopA),
+            sum(stopB),
+            sum(stopC),
+            sum(stopD)
+        ],
+        type: "pie"
+    }], {
+        title: "Stop-wise Passenger Distribution"
+    });
+
+    Plotly.newPlot("timeLoad", [{
+        x: rows.map(r => r["STOP A"]),
+        y: stopA,d
+        mode: "lines+markers"
+    }], {
+        title: "Time vs Passenger Load (Stop A)",
+        xaxis: { title: "Time" },
+        yaxis: { title: "Passengers" }
+    });
+
+}
+
+function avg(arr) {
+    const n = arr.length;
+    return arr.reduce((a, b) => a + (parseInt(b) || 0), 0) / n;
+}
+
+function sum(arr) {
+    return arr.reduce((a, b) => a + (parseInt(b) || 0), 0);
+}
+
+</script>
+
+</body>
+</html>
